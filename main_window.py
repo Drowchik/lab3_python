@@ -18,9 +18,20 @@ class ScrollLabel(QScrollArea):
         self.label = QLabel(text)
         self.label.setWordWrap(True)
         lay.addWidget(self.label)
+        self.label.setFont(QFont("Arial", 20))
 
     def setText(self, text):
         self.label.setText(text)
+
+class ErrorMessageBox:
+    def __init__(self, parent, text:str):
+        message_box = QMessageBox(parent)
+        message_box.setText(text)
+        ok_button = message_box.addButton(QMessageBox.Ok)
+        ok_button.setStyleSheet("background:#0e172c; border-radius: 5px; min-width: 100px;")
+        message_box.setStyleSheet('color: #0e172c')
+        message_box.exec_()
+        
         
 class Example(QWidget):
 
@@ -55,7 +66,7 @@ class Example(QWidget):
         
         self.button_rating1 = QPushButton('1', self)
         self.button_rating1.setStyleSheet("background:#0e172c; border-radius: 5px; min-width: 150px; min-height: 70px;")
-
+        self.button_rating1.clicked.connect(self.get_next_review_1)
         self.button_rating2 = QPushButton('2', self)
         self.button_rating2.setStyleSheet("background:#0e172c; border-radius: 5px; min-width: 150px; min-height: 70px;")
         self.button_rating3 = QPushButton('3', self)
@@ -66,8 +77,8 @@ class Example(QWidget):
         self.button_rating5.setStyleSheet("background:#0e172c; border-radius: 5px; min-width: 150px; min-height: 70px;")
         
         
-        self.review_label = ScrollLabel(self)
-        self.review_label.setStyleSheet("background:#d9d4e7;  border: 5px solid #0e172c")
+        self.review = ScrollLabel(self)
+        self.review.setStyleSheet("background:#d9d4e7; color: #0e172c; border: 5px solid #0e172c")
         
         
         layout = QGridLayout()
@@ -76,7 +87,7 @@ class Example(QWidget):
         layout.addWidget(self.button, 0, 0)
         layout.addWidget(self.button_dataset, 0, 1, 1, 3)
         layout.addWidget(self.button_dataset2, 0, 4)
-        layout.addWidget(self.review_label, 1, 0, 3, 5)
+        layout.addWidget(self.review, 1, 0, 3, 5)
         
         layout.addWidget(self.button_rating1, 5, 0)
         layout.addWidget(self.button_rating2, 5, 1)
@@ -87,6 +98,16 @@ class Example(QWidget):
         # self.setGeometry(300, 300, 1200, 200)
         self.show()
 
+    
+    def get_next_review_1(self):
+        try:
+            with open(next(self.rating_iter1), 'r', encoding='utf-8') as file:
+                self.review.setText(''.join(file.readlines()))
+        except AttributeError:
+            ErrorMessageBox(self,'all bad')
+            
+            
+            
     def click_csv(self):
         dialog = QDialog(self)
         dialog.setWindowTitle('Create file CSV')
@@ -122,6 +143,12 @@ class Example(QWidget):
     def select_folder(self):
         self.folderpath = (QFileDialog.getExistingDirectory(self, 'Select Folder')).replace('/', '\\')
         self.path_line_edit.setText(self.folderpath)
+        self.rating_iter1 = task_5.Iterator1(self.folderpath, str(1))
+        self.rating_iter2 = task_5.Iterator1(self.folderpath, str(2))
+        self.rating_iter3 = task_5.Iterator1(self.folderpath, str(3))
+        self.rating_iter4 = task_5.Iterator1(self.folderpath, str(4))
+        self.rating_iter5 = task_5.Iterator1(self.folderpath, str(5))
+        
 
     def create_dataset_copy(self):
         task_2.copy_info(self.folderpath)
@@ -218,15 +245,6 @@ class Example(QWidget):
             ErrorMessageBox(self, "Please choose directory with dataset")
             
 
-
-class ErrorMessageBox:
-    def __init__(self, parent, text:str):
-        message_box = QMessageBox(parent)
-        message_box.setText(text)
-        ok_button = message_box.addButton(QMessageBox.Ok)
-        ok_button.setStyleSheet("background:#0e172c; border-radius: 5px; min-width: 100px;")
-        message_box.setStyleSheet('color: #0e172c')
-        message_box.exec_()
   
         
 def application(): 
