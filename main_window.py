@@ -69,13 +69,16 @@ class Example(QWidget):
         self.button_rating1.clicked.connect(self.get_next_review_1)
         self.button_rating2 = QPushButton('2', self)
         self.button_rating2.setStyleSheet("background:#0e172c; border-radius: 5px; min-width: 150px; min-height: 70px;")
+        self.button_rating2.clicked.connect(self.get_next_review_2)
         self.button_rating3 = QPushButton('3', self)
         self.button_rating3.setStyleSheet("background:#0e172c; border-radius: 5px; min-width: 150px; min-height: 70px;")
+        self.button_rating3.clicked.connect(self.get_next_review_3)
         self.button_rating4 = QPushButton('4', self)
         self.button_rating4.setStyleSheet("background:#0e172c; border-radius: 5px; min-width: 150px; min-height: 70px;")
+        self.button_rating4.clicked.connect(self.get_next_review_4)
         self.button_rating5 = QPushButton('5', self)
         self.button_rating5.setStyleSheet("background:#0e172c; border-radius: 5px; min-width: 150px; min-height: 70px;")
-        
+        self.button_rating5.clicked.connect(self.get_next_review_5)
         
         self.review = ScrollLabel(self)
         self.review.setStyleSheet("background:#d9d4e7; color: #0e172c; border: 5px solid #0e172c")
@@ -105,6 +108,35 @@ class Example(QWidget):
                 self.review.setText(''.join(file.readlines()))
         except AttributeError:
             ErrorMessageBox(self,'all bad')
+    
+    def get_next_review_2(self):
+        try:
+            with open(next(self.rating_iter2), 'r', encoding='utf-8') as file:
+                self.review.setText(''.join(file.readlines()))
+        except AttributeError:
+            ErrorMessageBox(self,'all bad')
+            
+    def get_next_review_3(self):
+        try:
+            with open(next(self.rating_iter3), 'r', encoding='utf-8') as file:
+                self.review.setText(''.join(file.readlines()))
+        except AttributeError:
+            ErrorMessageBox(self,'all bad')
+    
+    def get_next_review_4(self):
+        try:
+            with open(next(self.rating_iter4), 'r', encoding='utf-8') as file:
+                self.review.setText(''.join(file.readlines()))
+        except AttributeError:
+            ErrorMessageBox(self,'all bad')
+                
+    def get_next_review_5(self):
+        try:
+            with open(next(self.rating_iter5), 'r', encoding='utf-8') as file:
+                self.review.setText(''.join(file.readlines()))
+        except AttributeError:
+            ErrorMessageBox(self,'all bad')
+            
             
             
             
