@@ -14,7 +14,7 @@ from PyQt5.QtCore import Qt
 
 
 class ScrollLabel(QScrollArea):
-    def __init__(self, *args, **kwargs) -> None:
+    def __init__(self, *args: tuple, **kwargs: dict) -> None:
         """
             Сreates a window for viewing reviews
 
@@ -57,7 +57,6 @@ class ErrorMessageBox:
             Returns:
             None
         """
-        print(type(parent))
         message_box = QMessageBox(parent)
         message_box.setText(text)
         ok_button = message_box.addButton(QMessageBox.Ok)
