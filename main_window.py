@@ -14,7 +14,7 @@ from PyQt5.QtCore import Qt
 
 
 class ScrollLabel(QScrollArea):
-    def __init__(self, *args, **kwargs):
+    def __init__(self, *args, **kwargs) -> None:
         """
             Сreates a window for viewing reviews
 
